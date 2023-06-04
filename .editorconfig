@@ -1,0 +1,10 @@
+root = true
+# vscode需搭配 EditorConfig 使用，
+# webstorm 捆绑了对这个的支持
+# 参考链接 https://editorconfig.org/
+[*]
+indent_style = space
+indent_size = 2
+charset = utf-8
+trim_trailing_whitespace = false
+insert_final_newline = true
