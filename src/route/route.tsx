@@ -3,6 +3,9 @@ import { createBrowserRouter, Navigate } from 'react-router-dom';
 
 import type { RouteObject } from 'react-router';
 import Layout from '@/views/Layout/Layout';
+import LoginAuth from './LoginAuth';
+import useLogin from '@/hooks/useLogin';
+import LoginStatus from '@/enum/LoginStatus';
 
 // access: "canAdmin",
 const menus = [
@@ -104,11 +107,11 @@ const formatterRoutes = (arr: Array<any>, path: string) => {
 formatterRoutes(menus, '/m/');
 console.log(adminRoutes);
 const El = () => {
-  const isLogin = true;
+  const [loginStatus] = useLogin();
   return (
     <>
-      {!isLogin && <Navigate to="/login" replace={true} />}
-      {isLogin && <Navigate to="/m" replace={true} />}
+      {loginStatus === LoginStatus.NotLogin && <Navigate to="/login" replace />}
+      {loginStatus === LoginStatus.HadLogin && <Navigate to="/m" replace />}
     </>
   );
 };
@@ -124,7 +127,11 @@ const router = createBrowserRouter([
   },
   {
     path: 'm',
-    element: <Layout />,
+    element: (
+      <LoginAuth>
+        <Layout />
+      </LoginAuth>
+    ),
     children: adminRoutes,
   },
 ]);
